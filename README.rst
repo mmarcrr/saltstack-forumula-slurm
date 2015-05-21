@@ -22,8 +22,9 @@ Available states
 Meta-state that includes the basic configuration for a client.
 
 is not for computing nodes, only for install login nodes or clients
+
 ``slurm.node``
-----------------
+--------------
 
 Configure and install ComputerNode
 
