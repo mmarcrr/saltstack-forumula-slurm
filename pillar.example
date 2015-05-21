@@ -1,0 +1,69 @@
+slurm:
+  ClusterName: "mycluster"
+  ControlMachine: 'myslurmserver'
+  ControlAddr: 10.10.1.1
+  AuthType: 'munge'
+  CryptoType: 'munge'
+  AccountingStorageType: slurmdbd
+  TopologyPlugin: 'tree'
+  TaskPlugin: 'cgroup'
+  SlurmctldLogFile: '/var/log/slurm/slurmctld.log'
+  AccountingStorageHost: 'localhost'
+  AccountingStoragePass: 'slurmpass'  
+  AccountingStorageUser: 'slurmuser'
+  SlurmDBStorageType: 'mysql'
+  JobCompLoc: /var/log/slurm/slurm_jobcomp.log
+  partitions:
+    debug:
+      MaxTime: INFINITE
+      Default: 'YES'
+      State: UP
+      nodes:
+        node1:
+          CPUS: 16
+          RealMemory: 128
+          Sockets: 2 
+          CoresPerSocket: 8 
+          ThreadsPerCore: 2 
+          State: UNKNOWN
+        node2:
+          CPUS: 32
+          RealMemory: 128
+          Sockets: 2 
+          CoresPerSocket: 8 
+          ThreadsPerCore: 2 
+          State: UNKNOWN
+        node3:
+          CPUS: 32
+          RealMemory: 128
+          Sockets: 2 
+          CoresPerSocket: 8 
+          ThreadsPerCore: 2 
+          State: UNKNOWN
+    production:
+      MaxTime: INFINITE
+      Default: 'YES'
+      State: UP
+      nodes:
+        node4:
+          CPUS: 16
+          RealMemory: 128
+          Sockets: 2 
+          CoresPerSocket: 8 
+          ThreadsPerCore: 2 
+          State: UNKNOWN
+        node5:
+          CPUS: 32
+          RealMemory: 128
+          Sockets: 2 
+          CoresPerSocket: 8 
+          ThreadsPerCore: 2 
+          State: UNKNOWN
+        node6:
+          CPUS: 32
+          RealMemory: 128
+          Sockets: 2 
+          CoresPerSocket: 8 
+          ThreadsPerCore: 2 
+          State: UNKNOWN
+

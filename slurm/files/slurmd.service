@@ -1,0 +1,19 @@
+[Unit]
+Description=Start/Stop the SLURM service.
+{% if salt['pillar.get']('slurm:ControlMachine') == grains.host or salt['pillar.get']('slurm:ControlAddr') in grains.ipv4 or salt['pillar.get']('slurm:BackupController') == grains['host']-%}
+After=slurmctld.service systemd-tmpfiles-clean.service
+Requires=slurmctld.service
+{% else -%}
+After=systemd-tmpfiles-clean.service
+{% endif %}
+
+[Service]
+Type=forking
+User=root
+ExecStart=/usr/sbin/slurmd -d /usr/sbin/slurmstepd
+ExecStop=/bin/kill $MAINPID
+ExecReload=/bin/kill -HUP $MAINPID
+PIDFile=/var/run/slurmd.pid
+
+[Install]
+WantedBy=multi-user.target

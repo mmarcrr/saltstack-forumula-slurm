@@ -1,0 +1,14 @@
+[Unit]
+Description=Start/Stop the SLURMCTLD service.
+{% if salt['pillar.get']('slurm:AuthType') in ['munge'] -%}
+After=network.target auditd.service munge.service 
+{% else -%}
+After=network.target auditd.service 
+{% endif %}
+[Service]
+Type=forking
+ExecStart=/usr/sbin/slurmctld 
+PIDFile=/var/run/slurmctld.pid
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,24 @@
+{% set slurm = salt['grains.filter_by'](
+  {
+  'RedHat': {
+        'server': 'slurmctld',
+        'service': 'slurm',
+        'config': '/etc/slurm/slurm.conf',	
+        'pkgSlurm':'slurm',
+        'pkgSlurmMuge':'slurm-munge',
+        'pkgSlurmPlugins':'slurm-plugins',
+        'pkgSlurmPam':'slurm-pam_slurm',
+        'pkgSlurmDevel':'slurm-devel',
+        'pkgSlurmDBD': 'slurm-slurmdbd',
+        'pkgSlurmSQL': 'slurm-sql',
+        'pkgMunge':'munge',
+        'pkgMungeLibs':'munge-libs',
+        'pkgMysqlSever':'mariadb-server',
+        'srvMysqlSever':'mariadb',
+        'pkgMySQLpython':'MySQL-python'
+        },
+  
+  })
+
+%}
+
