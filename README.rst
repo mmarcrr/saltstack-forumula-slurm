@@ -31,12 +31,14 @@ Configure and install ComputerNode
 ----------------
 
 Install and configure the Controller.
+The checkpoint is test by blcr, you need the rpm packe 
 
 CentOS family supports setting MySQL 
+
 
 
 ``slurm.slurmdbd``
 ------------------
 
 If the accounting option is slurmdbd this state configure the services
-
+This service is configured with mysql, verify that your slurm compiled with mysql support

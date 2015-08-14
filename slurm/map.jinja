@@ -4,6 +4,7 @@
         'server': 'slurmctld',
         'service': 'slurm',
         'config': '/etc/slurm/slurm.conf',	
+        'env': '/etc/default/slurmd',
         'pkgSlurm':'slurm',
         'pkgSlurmMuge':'slurm-munge',
         'pkgSlurmPlugins':'slurm-plugins',
@@ -18,7 +19,8 @@
         'pkgMySQLpython':'MySQL-python'
         },
   
-  })
+  },merge=salt['pillar.get']('slurm:lookup'))
+  
 
 %}
 

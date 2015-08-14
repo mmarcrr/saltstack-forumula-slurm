@@ -16,28 +16,24 @@ server_log_file:
     - require:
       - pkg: {{ slurm.pkgMunge }}
       - user: slurm
-    
+
+Bug_rpm_no_create_default_environment:
+  file.touch:
+    - name: /etc/default/slurmctld
+    - onlyif:  'test ! -e /etc/default/slurmctld'
+
+
+
 server:
-{% if grains['os_family'] == 'RedHat' %}
-   {% if grains['osmajorrelease'] == '7' %}      
-  file.managed:
-    - name: /usr/lib/systemd/system/slurmctld.service
-    - user: root
-    - group: root
-    - replace: True
-    - template: jinja 
-    - mode: '0644'
-    - source: salt://slurm/files/slurmctld.service
-    - require:
-       - pkg: {{ slurm.pkgSlurm }}
   service.running:
     - name: slurmctld
     - enable: True
     - reload: True
-    - watch:
-      - file: /usr/lib/systemd/system/slurmctld.service
-  {% endif %}
-{% endif %}
+    - require:
+      - file: Bug_rpm_no_create_default_environment
+
+
+
 slurm_disable:
   service.dead:
     - enable: false

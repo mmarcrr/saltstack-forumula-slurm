@@ -61,21 +61,17 @@ slurmdbd.conf:
     - source: salt://slurm/files/slurmdbd.conf
 
 
+Bug_rpm_no_create_default_environment_slurmdbd:
+  file.touch:
+    - name: /etc/default/slurmdbd
+    - onlyif:  'test ! -e /etc/default/slurmdbd'
+
 slurmdbd:
   pkg.installed:
     - name: {{ slurm.pkgSlurmDBD }}
     - pkgs:
       - {{ slurm.pkgSlurmSQL }}
       - {{ slurm.pkgSlurmDBD }}       
-  file.managed:
-    - name : /usr/lib/systemd/system/slurmdbd.service
-    - user: root
-    - group: root
-    - replace: True
-    - mode: '0644'
-    - source: salt://slurm/files/slurmdbd.service
-    - require:
-       - pkg: {{ slurm.pkgSlurm }}
   service:
     - running
     - enable: true
@@ -89,8 +85,13 @@ slurmdbd:
       - file: /etc/slurm/slurmdbd.conf
       - mysql_user: {{ salt['pillar.get']('slurm:AccountingStorageUser','slurm') }}
       - mysql_database: slurm_acct_db
+      - file: Bug_rpm_no_create_default_environment_slurmdbd
   cmd.run:
     - name: /usr/bin/sacctmgr -i add cluster "{{ salt['pillar.get']('slurm:ClusterName','slurm') }}"
     - unless: sacctmgr show Cluster |grep -i "{{ salt['pillar.get']('slurm:ClusterName','slurm') }}"
+  file.touch:
+    - name: /etc/default/slurmdbd
+    - onlyif:
+       - file: exist_default_slurmdb
   
   

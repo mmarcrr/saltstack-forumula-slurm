@@ -17,10 +17,29 @@ client:
     - source: salt://slurm/files/slurm.conf
   user.present:
     - name: slurm
+    - home: /localhome/slurm
     - uid: 550
     - gid: 510
     - gid_from_name: True
-{%  if salt['pillar.get']('slurm:AuthType') in ['munge'] %}   
+    
+{{ slurm.env }}:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 644
+    - source: salt://slurm/files/slurmd
+    
+#because the rpm not create directory
+/var/run/slurm/:
+  file.directory:
+    - name: 
+    - user: root
+    - group: root
+    - mode: '755'
+    - makedirs: true   
+    
+
+{%  if salt['pillar.get']('slurm:AuthType') == 'munge' %}
 munge:
   pkg:
    - installed
